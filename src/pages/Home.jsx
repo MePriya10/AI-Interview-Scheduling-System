@@ -1,11 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { FaCalendarCheck, FaBell, FaSyncAlt, FaVideo, FaBrain, FaClock } from 'react-icons/fa';
+import AuthModal from '../components/AuthModal'; // Adjust path if needed
 
 const Home = () => {
   const featuresRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
 
   const scrollToFeatures = () => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const openModal = (mode) => {
+    setAuthMode(mode);
+    setIsModalOpen(true);
   };
 
   return (
@@ -47,25 +55,31 @@ const Home = () => {
       </section>
 
       {/* 🔹 CTA Section */}
-      {/* 🔹 CTA Section with Wine Gradient */}
       <section
-  id="cta"
-  className="relative z-20 py-20 px-6 bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 text-center"
->
-  <h2 className="text-4xl font-bold mb-6 text-white">Ready to Simplify Interviews?</h2>
-  <p className="text-lg text-indigo-100 mb-8">
-    Join companies using ScheduleAI to streamline and automate the hiring process.
-  </p>
-  <button
-    className="bg-white text-indigo-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-  >
-    Try ScheduleAI
-  </button>
-</section>
+        id="cta"
+        className="relative z-20 py-20 px-6 bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 text-center"
+      >
+        <h2 className="text-4xl font-bold mb-6 text-white">Ready to Simplify Interviews?</h2>
+        <p className="text-lg text-indigo-100 mb-8">
+          Join companies using ScheduleAI to streamline and automate the hiring process.
+        </p>
+        <button
+          className="bg-white text-indigo-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+          onClick={() => openModal("login")}
+        >
+          Try ScheduleAI
+        </button>
+      </section>
 
-
+      {/* 🔹 Auth Modal with toggle support */}
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        defaultMode={authMode}
+      />
     </div>
   );
 };
 
 export default Home;
+

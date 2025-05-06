@@ -5,12 +5,12 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Availability from './pages/Availability';
 import Schedule from './pages/Schedule';
-import Navbar from './components/Header'; // ✅ import the new Navbar
+import Navbar from './components/Header'; // import the new Navbar
 
 function App() {
   return (
     <Router>
-      <Navbar /> {/* ✅ add it outside Routes so it shows on every page */}
+      <Navbar /> {/* add it outside Routes so it shows on every page */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />

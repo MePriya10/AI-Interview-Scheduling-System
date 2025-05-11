@@ -1,21 +1,30 @@
 import React, { useRef, useState } from 'react';
-import { FaCalendarCheck, FaBell, FaSyncAlt, FaVideo, FaBrain, FaClock } from 'react-icons/fa';
-import AuthModal from './AuthModal'; // Import AuthModal here
+import {
+  FaCalendarCheck,
+  FaBell,
+  FaSyncAlt,
+  FaVideo,
+  FaBrain,
+  FaClock
+} from 'react-icons/fa';
+import AuthModal from '../components/AuthModal';
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);  // State for modal visibility
   const featuresRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
 
   const scrollToFeatures = () => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const openModal = () => {
-    setIsModalOpen(true); // Open the modal when "Try ScheduleAI" is clicked
+  const openModal = (mode = "login") => {
+    setAuthMode(mode);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); // Close the modal when it's closed
+    setIsModalOpen(false);
   };
 
   return (
@@ -61,7 +70,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 🔹 CTA Section with Wine Gradient */}
+      {/* 🔹 CTA Section */}
       <section
         id="cta"
         className="relative z-20 py-20 px-6 bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 text-center"
@@ -71,15 +80,19 @@ const Home = () => {
           Join companies using ScheduleAI to streamline and automate the hiring process.
         </p>
         <button
-          onClick={openModal}  // When the button is clicked, open the modal
+          onClick={() => openModal("login")}
           className="bg-white text-indigo-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
         >
           Try ScheduleAI
         </button>
       </section>
 
-      {/* Pass the state and close function to AuthModal */}
-      <AuthModal isOpen={isModalOpen} onClose={closeModal} />
+      {/* 🔹 Auth Modal */}
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        defaultMode={authMode}
+      />
     </div>
   );
 };

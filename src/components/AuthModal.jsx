@@ -1,162 +1,125 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const loginSchema = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
+  const [mode, setMode] = useState(defaultMode); // 'login' or 'signup'
+  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-const signupSchema = loginSchema.extend({
-  name: z.string().min(1, "Name is required"),
-});
+  if (!isOpen) return null;
 
-export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
-  const [isLogin, setIsLogin] = useState(defaultMode === "login");
-  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  useEffect(() => {
-    setIsLogin(defaultMode === "login");
-  }, [defaultMode]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(isLogin ? loginSchema : signupSchema),
-  });
+    try {
+      // Use correct backend route
+      const url =
+        mode === 'signup'
+          ? 'http://localhost:5000/api/auth/register' //  Changed from /signup to /register
+          : 'http://localhost:5000/api/auth/login';
 
-  const onSubmit = (data) => {
-    console.log("Submitted:", data);
+      //  Only send relevant fields (exclude name for login)
+      const dataToSend =
+        mode === 'signup'
+          ? formData
+          : { email: formData.email, password: formData.password };
 
-    // Simulate login/signup logic
-    setTimeout(() => {
-      reset();
-      onClose();
-      navigate("/dashboard");
-    }, 500);
+      // Send correct format: plain object, not nested { formData: {...} }
+      const response = await axios.post(url, dataToSend);
+
+      // Save token and user info to localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      alert(`${mode === 'signup' ? 'Account created' : 'Logged in'} successfully!`);
+      onClose(); // Close modal
+    } catch (err) {
+      //  Handle backend error message safely
+      const errorMsg =
+        err.response?.data?.message || 'Authentication failed. Please try again.';
+      setError(errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleMode = () => {
+    setMode((prev) => (prev === 'login' ? 'signup' : 'login'));
+    setError('');
+    setFormData({ name: '', email: '', password: '' });
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <motion.div
-            className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -50, opacity: 0 }}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4 text-center text-purple-800">
+          {mode === 'login' ? 'Login' : 'Create Account'}
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {mode === 'signup' && (
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Full Name"
+              required
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          )}
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          />
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          />
+
+          {error && <p className="text-red-600 text-sm">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded font-semibold transition"
           >
-            <h2 className="text-xl font-bold mb-4 text-center">
-              {isLogin ? "Login" : "Sign Up"}
-            </h2>
+            {loading ? 'Please wait...' : mode === 'login' ? 'Login' : 'Sign Up'}
+          </button>
+        </form>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {!isLogin && (
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    {...register("name")}
-                    placeholder="Full Name"
-                    className="w-full px-3 py-2 border rounded"
-                  />
-                  {errors.name && (
-                    <p className="text-red-500 text-sm">
-                      {errors.name.message}
-                    </p>
-                  )}
-                </div>
-              )}
+        <p className="mt-4 text-center text-sm text-gray-600">
+          {mode === 'login' ? 'Don\'t have an account?' : 'Already have an account?'}{' '}
+          <button onClick={toggleMode} className="text-purple-600 hover:underline font-medium">
+            {mode === 'login' ? 'Sign up' : 'Log in'}
+          </button>
+        </p>
 
-              <div className="mb-3">
-                <input
-                  type="email"
-                  {...register("email")}
-                  placeholder="Email"
-                  className="w-full px-3 py-2 border rounded"
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="mb-3">
-                <input
-                  type="password"
-                  {...register("password")}
-                  placeholder="Password"
-                  className="w-full px-3 py-2 border rounded"
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-sm">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-              >
-                {isLogin ? "Login" : "Sign Up"}
-              </button>
-            </form>
-
-            {/* 🔁 Toggle link */}
-            <p className="text-center mt-4 text-sm">
-              {isLogin ? (
-                <>
-                  Don't have an account?{" "}
-                  <button
-                    onClick={() => {
-                      setIsLogin(false);
-                      reset();
-                    }}
-                    className="text-blue-600 hover:underline"
-                  >
-                    Sign Up
-                  </button>
-                </>
-              ) : (
-                <>
-                  Already have an account?{" "}
-                  <button
-                    onClick={() => {
-                      setIsLogin(true);
-                      reset();
-                    }}
-                    className="text-blue-600 hover:underline"
-                  >
-                    Login
-                  </button>
-                </>
-              )}
-            </p>
-
-            <button
-              onClick={() => {
-                onClose();
-                reset();
-              }}
-              className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 text-lg"
-            >
-              ✕
-            </button>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        <button
+          onClick={onClose}
+          className="mt-4 text-sm text-gray-500 hover:text-gray-700 text-center w-full"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
   );
-}
+};
+
+export default AuthModal;

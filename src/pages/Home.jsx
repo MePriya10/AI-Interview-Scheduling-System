@@ -64,11 +64,12 @@ const Home = () => {
           Join companies using ScheduleAI to streamline and automate the hiring process.
         </p>
         <button
-          className="bg-white text-indigo-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-          onClick={() => openModal("login")}
-        >
-          Try ScheduleAI
-        </button>
+  className="bg-white text-indigo-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+  onClick={() => openModal("login")}  // Opens the modal in 'login' mode
+>
+  Try ScheduleAI
+</button>
+
       </section>
 
       {/* 🔹 Auth Modal with toggle support */}

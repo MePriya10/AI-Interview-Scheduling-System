@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();  // Hook to navigate programmatically
+
+  // Check if the user is authenticated by looking for a token
+  const isAuthenticated = localStorage.getItem('authToken'); // Modify based on your storage mechanism
+  const userName = localStorage.getItem('userName'); // Assuming you saved the username in localStorage
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');  // Remove the auth token
+    localStorage.removeItem('userName');  // Remove the username
+    navigate('/login');  // Redirect to login page
+  };
 
   return (
     <header className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
@@ -20,6 +32,21 @@ const Navbar = () => {
           <Link to="/dashboard" className="hover:text-blue-600">Dashboard</Link>
           <Link to="/availability" className="hover:text-blue-600">Availability</Link>
           <Link to="/schedule" className="hover:text-blue-600">Schedule</Link>
+
+          {/* Authenticated User Section */}
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-4">
+              <span className="text-blue-600">{userName}</span> {/* Display user's name */}
+              <button
+                onClick={handleLogout}
+                className="text-blue-600 hover:text-blue-500"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="hover:text-blue-600">Login</Link>
+          )}
         </nav>
 
         {/* Mobile Hamburger */}
@@ -38,6 +65,21 @@ const Navbar = () => {
           <Link to="/dashboard" onClick={() => setMenuOpen(false)} className="block">Dashboard</Link>
           <Link to="/availability" onClick={() => setMenuOpen(false)} className="block">Availability</Link>
           <Link to="/schedule" onClick={() => setMenuOpen(false)} className="block">Schedule</Link>
+
+          {/* Authenticated User Section */}
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-4">
+              <span className="text-blue-600">{userName}</span>
+              <button
+                onClick={handleLogout}
+                className="text-blue-600 hover:text-blue-500"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="hover:text-blue-600">Login</Link>
+          )}
         </div>
       )}
     </header>
@@ -45,3 +87,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

@@ -35,7 +35,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
 
       alert(`${mode === 'signup' ? 'Account created' : 'Logged in'} successfully!`);
       // onClose(); // Close modal
-      navigate("/dashboard")
+      navigate("/Dashboard")
 
     } catch (err) {
       const errorMsg =

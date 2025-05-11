@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   FaCalendarAlt,
   FaUserClock,
-  FaHistory,
+  FaRobot,
   FaChartLine,
   FaPlayCircle,
   FaCogs,
@@ -24,8 +24,8 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <DashboardCard icon={<FaCalendarAlt />} title="Interviews" link="/schedule" />
           <DashboardCard icon={<FaUserClock />} title="Availability" link="/availability" />
-          <DashboardCard icon={<FaHistory />} title="History" link="/dashboard" />
-          <DashboardCard icon={<FaChartLine />} title="Analytics" link="/dashboard" />
+          <DashboardCard icon={<FaRobot />} title="AI Insights" link="/ai-insights" />
+          <DashboardCard icon={<FaChartLine />} title="Analytics" link="/analytics" />
         </div>
       </section>
 
@@ -51,7 +51,7 @@ export default function Dashboard() {
       {/* CTA */}
       <section className="bg-indigo-900 text-white rounded-2xl p-8 text-center shadow-xl">
         <h2 className="text-2xl font-bold mb-3">Let AI take the wheel</h2>
-        <p className="mb-6 text-indigo-100">Automate scheduling, reminders, and conflicts with one smart assistant.</p>
+        <p className="mb-6 text-indigo-100">Automate scheduling, reminders, and conflict resolution with one smart assistant.</p>
         <Link
           to="/schedule"
           className="inline-block bg-white text-indigo-900 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"

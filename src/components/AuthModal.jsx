@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
   const [mode, setMode] = useState(defaultMode); // 'login' or 'signup'
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
 
   if (!isOpen) return null;
 
@@ -19,29 +22,22 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
     setLoading(true);
 
     try {
-      // Use correct backend route
       const url =
         mode === 'signup'
-          ? 'http://localhost:5000/api/auth/register' //  Changed from /signup to /register
+          ? 'http://localhost:5000/api/auth/signup'
           : 'http://localhost:5000/api/auth/login';
 
-      //  Only send relevant fields (exclude name for login)
-      const dataToSend =
-        mode === 'signup'
-          ? formData
-          : { email: formData.email, password: formData.password };
-
-      // Send correct format: plain object, not nested { formData: {...} }
-      const response = await axios.post(url, dataToSend);
+      const response = await axios.post(url, formData);
 
       // Save token and user info to localStorage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
       alert(`${mode === 'signup' ? 'Account created' : 'Logged in'} successfully!`);
-      onClose(); // Close modal
+      // onClose(); // Close modal
+      navigate("/dashboard")
+
     } catch (err) {
-      //  Handle backend error message safely
       const errorMsg =
         err.response?.data?.message || 'Authentication failed. Please try again.';
       setError(errorMsg);

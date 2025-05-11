@@ -20,6 +20,9 @@ const Navbar = () => {
           <Link to="/dashboard" className="hover:text-blue-600">Dashboard</Link>
           <Link to="/availability" className="hover:text-blue-600">Availability</Link>
           <Link to="/schedule" className="hover:text-blue-600">Schedule</Link>
+          <Link to="/analytics" className="hover:text-blue-600">Analytics</Link>
+          <Link to="/profile" className="hover:text-blue-600">Profile</Link>
+
         </nav>
 
         {/* Mobile Hamburger */}
@@ -38,6 +41,8 @@ const Navbar = () => {
           <Link to="/dashboard" onClick={() => setMenuOpen(false)} className="block">Dashboard</Link>
           <Link to="/availability" onClick={() => setMenuOpen(false)} className="block">Availability</Link>
           <Link to="/schedule" onClick={() => setMenuOpen(false)} className="block">Schedule</Link>
+          <Link to="/analytics" onClick={() => setMenuOpen(false)} className="block">Analytics</Link>
+          <Link to="/profile" onClick={() => setMenuOpen(false)} className="block">Profile</Link>
         </div>
       )}
     </header>

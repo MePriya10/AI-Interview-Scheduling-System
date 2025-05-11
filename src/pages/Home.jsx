@@ -1,11 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { FaCalendarCheck, FaBell, FaSyncAlt, FaVideo, FaBrain, FaClock } from 'react-icons/fa';
+import AuthModal from './AuthModal'; // Import AuthModal here
 
 const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);  // State for modal visibility
   const featuresRef = useRef(null);
 
   const scrollToFeatures = () => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true); // Open the modal when "Try ScheduleAI" is clicked
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal when it's closed
   };
 
   return (
@@ -30,14 +40,19 @@ const Home = () => {
       <section ref={featuresRef} id="features" className="relative z-20 py-20 px-6 bg-white">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-purple-800">Why ScheduleAI?</h2>
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 text-center">
-          {[
-            { icon: <FaBrain />, label: "AI Conflict Detection" },
-            { icon: <FaCalendarCheck />, label: "Calendar Sync" },
-            { icon: <FaVideo />, label: "Virtual Meeting Links" },
-            { icon: <FaSyncAlt />, label: "Smart Rescheduling" },
-            { icon: <FaBell />, label: "Reminders & Alerts" },
-            { icon: <FaClock />, label: "Predictive Suggestions" }
-          ].map(({ icon, label }, i) => (
+          {[{
+            icon: <FaBrain />, label: "AI Conflict Detection"
+          }, {
+            icon: <FaCalendarCheck />, label: "Calendar Sync"
+          }, {
+            icon: <FaVideo />, label: "Virtual Meeting Links"
+          }, {
+            icon: <FaSyncAlt />, label: "Smart Rescheduling"
+          }, {
+            icon: <FaBell />, label: "Reminders & Alerts"
+          }, {
+            icon: <FaClock />, label: "Predictive Suggestions"
+          }].map(({ icon, label }, i) => (
             <div key={i} className="p-6 bg-purple-100 rounded-xl hover:bg-purple-200 transition duration-300">
               <div className="text-4xl mb-4 text-purple-800">{icon}</div>
               <p className="text-purple-800 text-lg font-semibold">{label}</p>
@@ -46,24 +61,25 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 🔹 CTA Section */}
       {/* 🔹 CTA Section with Wine Gradient */}
       <section
-  id="cta"
-  className="relative z-20 py-20 px-6 bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 text-center"
->
-  <h2 className="text-4xl font-bold mb-6 text-white">Ready to Simplify Interviews?</h2>
-  <p className="text-lg text-indigo-100 mb-8">
-    Join companies using ScheduleAI to streamline and automate the hiring process.
-  </p>
-  <button
-    className="bg-white text-indigo-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-  >
-    Try ScheduleAI
-  </button>
-</section>
+        id="cta"
+        className="relative z-20 py-20 px-6 bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 text-center"
+      >
+        <h2 className="text-4xl font-bold mb-6 text-white">Ready to Simplify Interviews?</h2>
+        <p className="text-lg text-indigo-100 mb-8">
+          Join companies using ScheduleAI to streamline and automate the hiring process.
+        </p>
+        <button
+          onClick={openModal}  // When the button is clicked, open the modal
+          className="bg-white text-indigo-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+        >
+          Try ScheduleAI
+        </button>
+      </section>
 
-
+      {/* Pass the state and close function to AuthModal */}
+      <AuthModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

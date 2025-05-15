@@ -13,36 +13,33 @@ const InterviewDetails = () => {
   const [date, setDate] = useState("");
   const [candidateId, setCandidateId] = useState("");
   const [interviewerId, setInterviewerId] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [sendStatus, setSendStatus] = useState("");
-
-  // Replace with your real form's prefill link and entry IDs
-  const generateGoogleFormLink = (interviewName, role) => {
-    const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdwxdgwUBv0AAOusa6KrMAcCIa1zGJwwzTA-sjH-lOGdS0Yxg/viewform?usp=pp_url";
-    const interviewNameParam = `&entry.1340369989=${encodeURIComponent(interviewName)}`;
-    const roleParam = `&entry.709177397=${encodeURIComponent(role)}`;
-    return baseUrl + interviewNameParam + roleParam;
-  };
+  const [isSending, setIsSending] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState("");
 
   const handleSendForm = (e) => {
     e.preventDefault();
-    setIsGenerating(true);
-    setSendStatus("");
+    setIsSending(true);
 
-    const formLink = generateGoogleFormLink(interviewName, role);
+    const generateGoogleFormLink = (interviewName, role) => {
+      const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdwxdgwUBv0AAOusa6KrMAcCIa1zGJwwzTA-sjH-lOGdS0Yxg/viewform?";
+      const interviewNameParam = `entry.1340369989=${encodeURIComponent(interviewName)}`;
+      const roleParam = `&entry.709177397=${encodeURIComponent(role)}`;
+      return baseUrl + interviewNameParam + roleParam;
+    };
 
-    // Simulate sending (replace with email API later)
+    const finalURL = generateGoogleFormLink(interviewName, role);
+
+    // Simulate delay
     setTimeout(() => {
-      setIsGenerating(false);
-      setSendStatus(`Form sent! Link: ${formLink}`);
-      console.log("Simulated send to candidate & interviewer:", formLink);
-    }, 1200);
+      setGeneratedLink(finalURL);
+      setIsSending(false);
+    }, 1000);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 pt-24 px-6">
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Interview Details for:{" "}
           <span className="text-purple-600">{interviewTitleFromState}</span>
         </h2>
@@ -90,7 +87,9 @@ const InterviewDetails = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-2">Date</label>
+            <label className="block text-gray-700 font-medium mb-2">
+              Date
+            </label>
             <input
               type="date"
               value={date}
@@ -138,27 +137,37 @@ const InterviewDetails = () => {
             <button
               type="submit"
               className="bg-purple-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-purple-700 transition"
-              disabled={isGenerating}
+              disabled={isSending}
             >
-              {isGenerating ? "Sending..." : "Send Form"}
+              {isSending ? "Sending Form..." : "Send Form"}
             </button>
           </div>
-
-          {sendStatus && (
-  <div className="mt-6 text-center">
-    <p className="text-green-600 font-semibold mb-2">Form sent!</p>
-    <a
-      href={sendStatus.replace("Form sent! Link: ", "")}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 underline break-all"
-    >
-      {sendStatus.replace("Form sent! Link: ", "")}
-    </a>
-  </div>
-)}
-
         </form>
+
+        {generatedLink && (
+          <div className="mt-8 text-center">
+            <p className="text-green-600 font-semibold mb-2">
+              Google Form Link Generated:
+            </p>
+            <a
+              href={generatedLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline break-all"
+            >
+              {generatedLink}
+            </a>
+
+            <div className="mt-6">
+              <button
+                onClick={() => navigate("/try-scheduler")}
+                className="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-blue-700 transition"
+              >
+                Next →
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

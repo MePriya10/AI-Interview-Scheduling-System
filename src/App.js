@@ -4,11 +4,12 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Header";
 import Analytics from "./pages/Analytics";
-import Schedule from "./pages/Schedule";
+
 import AIInsights from "./pages/AiInsights";
 import { AuthProvider } from "./pages/AuthContext";
 import ScheduleInterviews from "./pages/ScheduleInterviews";
 import InterviewDetails from "./pages/interview-details";
+import TryScheduler from "./pages/try-scheduler";
 
 
 function App() {
@@ -33,8 +34,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/ScheduleInterviews" element={<ScheduleInterviews/>}/>
           
-          <Route path="/schedule" element={<Schedule />} />
+
           <Route path="/interview-details" element={<InterviewDetails />} />
+          <Route path="/try-scheduler" element={<TryScheduler/>}/>
       
         
           <Route

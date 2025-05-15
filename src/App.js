@@ -1,50 +1,57 @@
-// src/App.jsx
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
-import Availability from './pages/Availability';
-import Schedule from './pages/Schedule';
-import Navbar from './components/Header'; // import the new Navbar
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import Navbar from "./components/Header";
+import Analytics from "./pages/Analytics";
+import Schedule from "./pages/Schedule";
+import AIInsights from "./pages/AiInsights";
+import { AuthProvider } from "./pages/AuthContext";
+import ScheduleInterviews from "./pages/ScheduleInterviews";
+import InterviewDetails from "./pages/interview-details";
+
 
 function App() {
   return (
-    <Router>
-      <Navbar /> {/* add it outside Routes so it shows on every page */}
-      <Routes>
-        {/* Public Route */}
-        <Route path="/" element={<Home />} />
+    <AuthProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+        
+         {/* <Route path="/profile" element={<Profile />} /> */}
 
-        {/* Protected Routes */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/availability"
-          element={
-            <ProtectedRoute>
-              <Availability />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/schedule"
-          element={
-            <ProtectedRoute>
-              <Schedule />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Router>
+          <Route
+            path="/analytics"
+            element={
+              
+                <Analytics />
+  
+            }
+          />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/ScheduleInterviews" element={<ScheduleInterviews/>}/>
+          
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/interview-details" element={<InterviewDetails />} />
+      
+        
+          <Route
+            path="/ai-insights"
+            element={
+              
+                <AIInsights />
+              
+            }
+
+          />
+        </Routes>
+
+        
+      </Router>
+    </AuthProvider>
   );
 }
 
 export default App;
-

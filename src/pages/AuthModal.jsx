@@ -10,6 +10,8 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+
+
 const signupSchema = loginSchema.extend({
   name: z.string().min(1, "Name is required"),
 });
@@ -152,3 +154,6 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
     </AnimatePresence>
   );
 }
+
+const navigate = useNavigate();
+

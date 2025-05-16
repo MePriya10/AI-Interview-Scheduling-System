@@ -4,73 +4,66 @@ import {
   FaCalendarAlt,
   FaRobot,
   FaChartLine,
-  FaPlayCircle,
 } from 'react-icons/fa';
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 text-gray-800 pt-24 px-6 pb-12 overflow-y-auto">
-      {/* Page Heading */}
-      <header className="mb-12 text-center">
-        <h1 className="text-5xl font-extrabold text-purple-900 mb-3 animate-pulse">
-          Welcome to Interview Scheduler! 
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 text-gray-800 pt-24 px-4 pb-12">
+      {/* Header */}
+      <header className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-purple-900 mb-3">
+          Welcome to the Interview Scheduler
         </h1>
-        <p className="text-purple-700 text-lg max-w-xl mx-auto">
-          Effortlessly manage your interview scheduling and get AI-powered insights to optimize your hiring process.
+        <p className="text-gray-700 text-md max-w-2xl mx-auto">
+          Manage your interview process with ease. Generate schedules, track insights, and make smarter hiring decisions.
         </p>
       </header>
 
-      {/* Quick Stats */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-purple-800 mb-6 border-b-2 border-purple-300 pb-2 max-w-xs mx-auto">
-          Quick Overview
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <DashboardCard
+      {/* Main Features */}
+      <section className="mb-16 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <FeatureCard
             icon={<FaCalendarAlt />}
-            title="Scheduling"
-            description="View and manage all your interview schedules."
-            link="/schedule"
+            title="Start Scheduling"
+            description="Use our smart algorithm to generate conflict-free interview schedules."
+            link="/ScheduleInterviews"
           />
-          <DashboardCard
+          <FeatureCard
             icon={<FaRobot />}
             title="AI Insights"
-            description="Get AI recommendations and conflict resolutions."
+            description="Leverage AI to optimize interviewer and candidate pairings."
             link="/ai-insights"
           />
-          <DashboardCard
+          <FeatureCard
             icon={<FaChartLine />}
             title="Analytics"
-            description="Analyze interview metrics and performance."
+            description="Track success metrics and evaluate interviewer performance."
             link="/analytics"
           />
         </div>
       </section>
 
-      {/* Quick Actions */}
-      <section className="mb-16 text-center">
-        <h2 className="text-2xl font-bold text-purple-800 mb-6 border-b-2 border-purple-300 pb-2 max-w-xs mx-auto">
-          Ready to get started?
-        </h2>
+      {/* CTA */}
+      <section className="text-center">
         <Link
-          to="/schedule"
-          className="inline-block bg-purple-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-purple-700 transition shadow-lg"
+          to="/ScheduleInterviews"
+          className="inline-block bg-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-purple-700 transition shadow-md"
         >
-          Schedule an Interview
+           Generate Interview Schedule
         </Link>
       </section>
     </div>
   );
 }
 
-// Reusable Card for Stats
-const DashboardCard = ({ icon, title, description, link }) => (
+// Reusable Feature Card
+const FeatureCard = ({ icon, title, description, link }) => (
   <Link
     to={link}
-    className="bg-white rounded-xl p-6 flex flex-col items-center justify-center text-center shadow-md hover:shadow-lg transition max-w-xs mx-auto"
+    className="bg-white rounded-2xl p-6 shadow hover:shadow-xl transition flex flex-col items-center text-center border border-gray-100 hover:border-purple-200"
   >
-    <div className="text-5xl text-purple-700 mb-4">{icon}</div>
-    <h3 className="text-xl font-semibold text-purple-800 mb-2">{title}</h3>
-    <p className="text-sm text-purple-700">{description}</p>
+    <div className="text-4xl text-purple-700 mb-3">{icon}</div>
+    <h3 className="text-lg font-semibold text-purple-800 mb-1">{title}</h3>
+    <p className="text-sm text-gray-600">{description}</p>
   </Link>
 );

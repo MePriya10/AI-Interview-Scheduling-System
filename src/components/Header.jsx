@@ -30,9 +30,7 @@ const Navbar = () => {
         <nav className="hidden md:flex space-x-6 text-blue-800 font-medium">
           <Link to="/" className="hover:text-blue-600">Home</Link>
           <Link to="/dashboard" className="hover:text-blue-600">Dashboard</Link>
-          <Link to="/availability" className="hover:text-blue-600">Availability</Link>
-          <Link to="/schedule" className="hover:text-blue-600">Schedule</Link>
-
+          
           {/* Authenticated User Section */}
           {isAuthenticated ? (
             <div className="flex items-center space-x-4">
@@ -63,8 +61,7 @@ const Navbar = () => {
         <div className="md:hidden px-6 pb-4 bg-white text-blue-800 space-y-3">
           <Link to="/" onClick={() => setMenuOpen(false)} className="block">Home</Link>
           <Link to="/dashboard" onClick={() => setMenuOpen(false)} className="block">Dashboard</Link>
-          <Link to="/availability" onClick={() => setMenuOpen(false)} className="block">Availability</Link>
-          <Link to="/schedule" onClick={() => setMenuOpen(false)} className="block">Schedule</Link>
+      
 
           {/* Authenticated User Section */}
           {isAuthenticated ? (

@@ -8,44 +8,50 @@ const TryScheduler = () => {
   const [interviewList, setInterviewList] = useState([]);
   const [error, setError] = useState(null);
 
+  // Get interview data passed via React Router location state
   const interviewData = location.state;
 
+  // Handler to call backend and generate schedule
   const handleScheduleGeneration = async () => {
     setIsScheduling(true);
     setError(null);
 
-    try {
-      // Remove 'interviewTitle' before sending to backend
-      const { interviewTitle, ...validData } = interviewData;
-
-      console.log("Sending to backend:", validData);
-
-      const response = await fetch("/api/generate-schedule", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(validData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to generate schedule. Please try again.");
+    const handleScheduleGeneration = async () => {
+      setIsScheduling(true);
+      setError(null);
+    
+      try {
+        const { interviewTitle, ...validData } = interviewData;
+    
+        console.log("Sending to backend:", validData);
+    
+        const response = await fetch("http://localhost:5000/api/generate-schedule", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(validData),
+        });
+    
+        if (!response.ok) {
+          throw new Error("Failed to generate schedule. Please try again.");
+        }
+    
+        const data = await response.json();
+    
+        if (!data.schedule || !Array.isArray(data.schedule)) {
+          throw new Error("Invalid response format from backend.");
+        }
+    
+        setInterviewList(data.schedule);
+        setScheduleGenerated(true);
+      } catch (err) {
+        setError(err.message || "Something went wrong.");
+      } finally {
+        setIsScheduling(false);
       }
-
-      const data = await response.json();
-
-      if (!data.schedule || !Array.isArray(data.schedule)) {
-        throw new Error("Invalid response format from backend.");
-      }
-
-      setInterviewList(data.schedule);
-      setScheduleGenerated(true);
-    } catch (err) {
-      setError(err.message || "Something went wrong.");
-    } finally {
-      setIsScheduling(false);
-    }
-  };
+    };
+  } 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 pt-24 px-6">

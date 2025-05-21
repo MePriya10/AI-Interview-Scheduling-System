@@ -1,0 +1,303 @@
+[
+    {
+      "candidateId": "c001",
+      "candidateName": "Alice Johnson",
+      "email": "alice.johnson@example.com",
+      "availableSlots": ["Mon 9AM", "Tue 10AM", "Thu 3PM"]
+    },
+    {
+      "candidateId": "c002",
+      "candidateName": "Bob Smith",
+      "email": "bob.smith@example.com",
+      "availableSlots": ["Wed 2PM", "Fri 11AM", "Mon 4PM"]
+    },
+    {
+      "candidateId": "c003",
+      "candidateName": "Carol Lee",
+      "email": "carol.lee@example.com",
+      "availableSlots": ["Tue 9AM", "Thu 1PM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c004",
+      "candidateName": "David Kim",
+      "email": "david.kim@example.com",
+      "availableSlots": ["Mon 11AM", "Wed 10AM", "Fri 1PM"]
+    },
+    {
+      "candidateId": "c005",
+      "candidateName": "Eve Martinez",
+      "email": "eve.martinez@example.com",
+      "availableSlots": ["Tue 2PM", "Thu 10AM", "Fri 4PM"]
+    },
+    {
+      "candidateId": "c006",
+      "candidateName": "Frank Harris",
+      "email": "frank.harris@example.com",
+      "availableSlots": ["Mon 3PM", "Wed 9AM", "Thu 11AM"]
+    },
+    {
+      "candidateId": "c007",
+      "candidateName": "Grace Turner",
+      "email": "grace.turner@example.com",
+      "availableSlots": ["Tue 4PM", "Thu 2PM", "Fri 9AM"]
+    },
+    {
+      "candidateId": "c008",
+      "candidateName": "Henry Adams",
+      "email": "henry.adams@example.com",
+      "availableSlots": ["Mon 10AM", "Wed 3PM", "Fri 2PM"]
+    },
+    {
+      "candidateId": "c009",
+      "candidateName": "Ivy Nelson",
+      "email": "ivy.nelson@example.com",
+      "availableSlots": ["Tue 11AM", "Thu 9AM", "Fri 1PM"]
+    },
+    {
+      "candidateId": "c010",
+      "candidateName": "Jackie Robinson",
+      "email": "jackie.robinson@example.com",
+      "availableSlots": ["Mon 2PM", "Wed 1PM", "Fri 4PM"]
+    },
+    {
+      "candidateId": "c011",
+      "candidateName": "Kevin Walker",
+      "email": "kevin.walker@example.com",
+      "availableSlots": ["Tue 9AM", "Thu 3PM", "Fri 11AM"]
+    },
+    {
+      "candidateId": "c012",
+      "candidateName": "Laura Scott",
+      "email": "laura.scott@example.com",
+      "availableSlots": ["Mon 4PM", "Wed 10AM", "Fri 9AM"]
+    },
+    {
+      "candidateId": "c013",
+      "candidateName": "Mike Evans",
+      "email": "mike.evans@example.com",
+      "availableSlots": ["Tue 2PM", "Thu 1PM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c014",
+      "candidateName": "Nina Brooks",
+      "email": "nina.brooks@example.com",
+      "availableSlots": ["Mon 9AM", "Wed 4PM", "Fri 2PM"]
+    },
+    {
+      "candidateId": "c015",
+      "candidateName": "Oscar Diaz",
+      "email": "oscar.diaz@example.com",
+      "availableSlots": ["Tue 10AM", "Thu 11AM", "Fri 4PM"]
+    },
+    {
+      "candidateId": "c016",
+      "candidateName": "Paula Foster",
+      "email": "paula.foster@example.com",
+      "availableSlots": ["Mon 11AM", "Wed 9AM", "Fri 1PM"]
+    },
+    {
+      "candidateId": "c017",
+      "candidateName": "Quincy Bell",
+      "email": "quincy.bell@example.com",
+      "availableSlots": ["Tue 3PM", "Thu 2PM", "Fri 9AM"]
+    },
+    {
+      "candidateId": "c018",
+      "candidateName": "Rachel Green",
+      "email": "rachel.green@example.com",
+      "availableSlots": ["Mon 1PM", "Wed 11AM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c019",
+      "candidateName": "Steve Young",
+      "email": "steve.young@example.com",
+      "availableSlots": ["Tue 9AM", "Thu 4PM", "Fri 10AM"]
+    },
+    {
+      "candidateId": "c020",
+      "candidateName": "Tina White",
+      "email": "tina.white@example.com",
+      "availableSlots": ["Mon 3PM", "Wed 2PM", "Fri 11AM"]
+    },
+    {
+      "candidateId": "c021",
+      "candidateName": "Uma Patel",
+      "email": "uma.patel@example.com",
+      "availableSlots": ["Tue 10AM", "Thu 1PM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c022",
+      "candidateName": "Victor Cruz",
+      "email": "victor.cruz@example.com",
+      "availableSlots": ["Mon 9AM", "Wed 4PM", "Fri 2PM"]
+    },
+    {
+      "candidateId": "c023",
+      "candidateName": "Wendy Morgan",
+      "email": "wendy.morgan@example.com",
+      "availableSlots": ["Tue 11AM", "Thu 3PM", "Fri 1PM"]
+    },
+    {
+      "candidateId": "c024",
+      "candidateName": "Xavier Lee",
+      "email": "xavier.lee@example.com",
+      "availableSlots": ["Mon 2PM", "Wed 1PM", "Fri 4PM"]
+    },
+    {
+      "candidateId": "c025",
+      "candidateName": "Yara Ahmed",
+      "email": "yara.ahmed@example.com",
+      "availableSlots": ["Tue 9AM", "Thu 2PM", "Fri 11AM"]
+    },
+    {
+      "candidateId": "c026",
+      "candidateName": "Zane Cooper",
+      "email": "zane.cooper@example.com",
+      "availableSlots": ["Mon 4PM", "Wed 10AM", "Fri 9AM"]
+    },
+    {
+      "candidateId": "c027",
+      "candidateName": "Amy Brooks",
+      "email": "amy.brooks@example.com",
+      "availableSlots": ["Tue 3PM", "Thu 1PM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c028",
+      "candidateName": "Brian Ross",
+      "email": "brian.ross@example.com",
+      "availableSlots": ["Mon 9AM", "Wed 4PM", "Fri 2PM"]
+    },
+    {
+      "candidateId": "c029",
+      "candidateName": "Cindy Hall",
+      "email": "cindy.hall@example.com",
+      "availableSlots": ["Tue 10AM", "Thu 11AM", "Fri 4PM"]
+    },
+    {
+      "candidateId": "c030",
+      "candidateName": "Derek Martin",
+      "email": "derek.martin@example.com",
+      "availableSlots": ["Mon 11AM", "Wed 9AM", "Fri 1PM"]
+    },
+    {
+      "candidateId": "c031",
+      "candidateName": "Ella Scott",
+      "email": "ella.scott@example.com",
+      "availableSlots": ["Tue 2PM", "Thu 2PM", "Fri 9AM"]
+    },
+    {
+      "candidateId": "c032",
+      "candidateName": "Fred Young",
+      "email": "fred.young@example.com",
+      "availableSlots": ["Mon 1PM", "Wed 11AM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c033",
+      "candidateName": "Gina Baker",
+      "email": "gina.baker@example.com",
+      "availableSlots": ["Tue 9AM", "Thu 4PM", "Fri 10AM"]
+    },
+    {
+      "candidateId": "c034",
+      "candidateName": "Harry Wilson",
+      "email": "harry.wilson@example.com",
+      "availableSlots": ["Mon 3PM", "Wed 2PM", "Fri 11AM"]
+    },
+    {
+      "candidateId": "c035",
+      "candidateName": "Isabel Clark",
+      "email": "isabel.clark@example.com",
+      "availableSlots": ["Tue 10AM", "Thu 1PM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c036",
+      "candidateName": "Jason Green",
+      "email": "jason.green@example.com",
+      "availableSlots": ["Mon 9AM", "Wed 4PM", "Fri 2PM"]
+    },
+    {
+      "candidateId": "c037",
+      "candidateName": "Kelly Evans",
+      "email": "kelly.evans@example.com",
+      "availableSlots": ["Tue 11AM", "Thu 3PM", "Fri 1PM"]
+    },
+    {
+      "candidateId": "c038",
+      "candidateName": "Liam King",
+      "email": "liam.king@example.com",
+      "availableSlots": ["Mon 2PM", "Wed 1PM", "Fri 4PM"]
+    },
+    {
+      "candidateId": "c039",
+      "candidateName": "Mia Lewis",
+      "email": "mia.lewis@example.com",
+      "availableSlots": ["Tue 9AM", "Thu 2PM", "Fri 11AM"]
+    },
+    {
+      "candidateId": "c040",
+      "candidateName": "Nathan Ward",
+      "email": "nathan.ward@example.com",
+      "availableSlots": ["Mon 4PM", "Wed 10AM", "Fri 9AM"]
+    },
+    {
+      "candidateId": "c041",
+      "candidateName": "Olivia Allen",
+      "email": "olivia.allen@example.com",
+      "availableSlots": ["Tue 3PM", "Thu 1PM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c042",
+      "candidateName": "Peter Bell",
+      "email": "peter.bell@example.com",
+      "availableSlots": ["Mon 9AM", "Wed 4PM", "Fri 2PM"]
+    },
+    {
+      "candidateId": "c043",
+      "candidateName": "Queenie Davis",
+      "email": "queenie.davis@example.com",
+      "availableSlots": ["Tue 10AM", "Thu 11AM", "Fri 4PM"]
+    },
+    {
+      "candidateId": "c044",
+      "candidateName": "Ryan Clark",
+      "email": "ryan.clark@example.com",
+      "availableSlots": ["Mon 11AM", "Wed 9AM", "Fri 1PM"]
+    },
+    {
+      "candidateId": "c045",
+      "candidateName": "Sophia Hill",
+      "email": "sophia.hill@example.com",
+      "availableSlots": ["Tue 2PM", "Thu 2PM", "Fri 9AM"]
+    },
+    {
+      "candidateId": "c046",
+      "candidateName": "Thomas Moore",
+      "email": "thomas.moore@example.com",
+      "availableSlots": ["Mon 1PM", "Wed 11AM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c047",
+      "candidateName": "Ursula Knight",
+      "email": "ursula.knight@example.com",
+      "availableSlots": ["Tue 9AM", "Thu 4PM", "Fri 10AM"]
+    },
+    {
+      "candidateId": "c048",
+      "candidateName": "Vincent Reed",
+      "email": "vincent.reed@example.com",
+      "availableSlots": ["Mon 3PM", "Wed 2PM", "Fri 11AM"]
+    },
+    {
+      "candidateId": "c049",
+      "candidateName": "Willa Grant",
+      "email": "willa.grant@example.com",
+      "availableSlots": ["Tue 10AM", "Thu 1PM", "Fri 3PM"]
+    },
+    {
+      "candidateId": "c050",
+      "candidateName": "Ximena Blake",
+      "email": "ximena.blake@example.com",
+      "availableSlots": ["Mon 9AM", "Wed 4PM", "Fri 2PM"]
+    }
+  ]
+  

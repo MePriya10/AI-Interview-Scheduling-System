@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const InterviewDetails = () => {
@@ -6,45 +6,69 @@ const InterviewDetails = () => {
   const navigate = useNavigate();
 
   const interviewTitleFromState = location.state?.title || "";
+  const numInterviews = location.state?.numInterviews || 1;
+  const interviewDate = location.state?.date || "";
 
   const [interviewName, setInterviewName] = useState("");
   const [role, setRole] = useState("");
   const [duration, setDuration] = useState("");
-  const [date, setDate] = useState("");
   const [candidateId, setCandidateId] = useState("");
-  const [interviewerId, setInterviewerId] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [generatedLink, setGeneratedLink] = useState("");
 
-  const handleSendForm = (e) => {
+  const [currentCount, setCurrentCount] = useState(1);
+  const [allInterviews, setAllInterviews] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => setShowPopup(false), 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
+
+  const handleNext = (e) => {
     e.preventDefault();
-    setIsSending(true);
 
-    const generateGoogleFormLink = (interviewName, role) => {
-      const baseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdwxdgwUBv0AAOusa6KrMAcCIa1zGJwwzTA-sjH-lOGdS0Yxg/viewform?";
-      const interviewNameParam = `entry.1340369989=${encodeURIComponent(interviewName)}`;
-      const roleParam = `&entry.709177397=${encodeURIComponent(role)}`;
-      return baseUrl + interviewNameParam + roleParam;
+    const interviewData = {
+      interviewTitle: interviewTitleFromState,
+      interviewName,
+      role,
+      duration,
+      date: interviewDate,
+      candidateId,
     };
 
-    const finalURL = generateGoogleFormLink(interviewName, role);
+    const updatedList = [...allInterviews, interviewData];
+    setAllInterviews(updatedList);
+    setShowPopup(true);
 
-    // Simulate delay
-    setTimeout(() => {
-      setGeneratedLink(finalURL);
-      setIsSending(false);
-    }, 1000);
+    if (currentCount < numInterviews) {
+      setCurrentCount(currentCount + 1);
+      // Reset form
+      setInterviewName("");
+      setRole("");
+      setDuration("");
+      setCandidateId("");
+    } else {
+      // All interviews collected
+      navigate("/try-scheduler", {
+        state: {
+          interviewTitle: interviewTitleFromState,
+          date: interviewDate,
+          interviews: updatedList,
+        },
+      });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 pt-24 px-6">
+    <div className="relative min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 pt-24 px-6">
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Interview Details for:{" "}
+          Interview {currentCount} of {numInterviews} for:{" "}
           <span className="text-purple-600">{interviewTitleFromState}</span>
         </h2>
 
-        <form onSubmit={handleSendForm} className="space-y-5">
+        <form onSubmit={handleNext} className="space-y-5">
           <div>
             <label className="block text-gray-700 font-medium mb-2">
               Interview Name
@@ -88,38 +112,12 @@ const InterviewDetails = () => {
 
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Date
-            </label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
               Candidate ID
             </label>
             <input
               type="text"
               value={candidateId}
               onChange={(e) => setCandidateId(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Interviewer ID
-            </label>
-            <input
-              type="text"
-              value={interviewerId}
-              onChange={(e) => setInterviewerId(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl"
               required
             />
@@ -136,39 +134,23 @@ const InterviewDetails = () => {
 
             <button
               type="submit"
-              className="bg-purple-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-purple-700 transition"
-              disabled={isSending}
+              className={`${
+                currentCount > numInterviews
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-purple-600 hover:bg-purple-700"
+              } text-white px-6 py-2 rounded-xl font-semibold transition`}
             >
-              {isSending ? "Sending Form..." : "Send Form"}
+              {currentCount < numInterviews ? "Save & Next →" : "Finish →"}
             </button>
           </div>
         </form>
-
-        {generatedLink && (
-          <div className="mt-8 text-center">
-            <p className="text-green-600 font-semibold mb-2">
-              Google Form Link Generated:
-            </p>
-            <a
-              href={generatedLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 underline break-all"
-            >
-              {generatedLink}
-            </a>
-
-            <div className="mt-6">
-              <button
-                onClick={() => navigate("/try-scheduler")}
-                className="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-blue-700 transition"
-              >
-                Next →
-              </button>
-            </div>
-          </div>
-        )}
       </div>
+
+      {showPopup && (
+        <div className="absolute top-5 right-5 bg-purple-600 text-white px-6 py-3 rounded-xl shadow-lg transition">
+          Interview {currentCount} of {numInterviews} filled ✅
+        </div>
+      )}
     </div>
   );
 };

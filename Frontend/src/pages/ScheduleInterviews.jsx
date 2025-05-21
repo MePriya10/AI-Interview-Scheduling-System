@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 const ScheduleInterviews = () => {
   const [title, setTitle] = useState("");
+  const [numInterviews, setNumInterviews] = useState(1);
+  const [date, setDate] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/interview-details", { state: { title } });
+    navigate("/interview-details", { state: { title, numInterviews, date } });
   };
 
   return (
@@ -31,6 +33,37 @@ const ScheduleInterviews = () => {
               required
             />
           </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Number of Interviews
+            </label>
+            <select
+              value={numInterviews}
+              onChange={(e) => setNumInterviews(Number(e.target.value))}
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9 , 10].map((num) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Interview Date
+            </label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"
+              required
+            />
+          </div>
+
           <div className="text-center">
             <button
               type="submit"

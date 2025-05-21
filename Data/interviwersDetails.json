@@ -1,0 +1,123 @@
+[
+    {
+      "interviewerId": "i001",
+      "interviewerName": "Dr. Arjun Mehta",
+      "email": "arjun.mehta@company.com",
+      "availableSlots": ["Mon 10AM", "Wed 1PM", "Thu 3PM"]
+    },
+    {
+      "interviewerId": "i002",
+      "interviewerName": "Priya Sharma",
+      "email": "priya.sharma@company.com",
+      "availableSlots": ["Tue 9AM", "Wed 2PM", "Fri 11AM"]
+    },
+    {
+      "interviewerId": "i003",
+      "interviewerName": "Ravi Verma",
+      "email": "ravi.verma@company.com",
+      "availableSlots": ["Mon 11AM", "Thu 10AM", "Fri 3PM"]
+    },
+    {
+      "interviewerId": "i004",
+      "interviewerName": "Sneha Kapoor",
+      "email": "sneha.kapoor@company.com",
+      "availableSlots": ["Tue 3PM", "Wed 10AM", "Thu 4PM"]
+    },
+    {
+      "interviewerId": "i005",
+      "interviewerName": "Vikram Singh",
+      "email": "vikram.singh@company.com",
+      "availableSlots": ["Mon 9AM", "Thu 1PM", "Fri 2PM"]
+    },
+    {
+      "interviewerId": "i006",
+      "interviewerName": "Ayesha Khan",
+      "email": "ayesha.khan@company.com",
+      "availableSlots": ["Tue 10AM", "Wed 11AM", "Fri 9AM"]
+    },
+    {
+      "interviewerId": "i007",
+      "interviewerName": "Rahul Joshi",
+      "email": "rahul.joshi@company.com",
+      "availableSlots": ["Mon 1PM", "Thu 2PM", "Fri 4PM"]
+    },
+    {
+      "interviewerId": "i008",
+      "interviewerName": "Neha Patel",
+      "email": "neha.patel@company.com",
+      "availableSlots": ["Tue 2PM", "Wed 3PM", "Fri 10AM"]
+    },
+    {
+      "interviewerId": "i009",
+      "interviewerName": "Ankit Desai",
+      "email": "ankit.desai@company.com",
+      "availableSlots": ["Mon 3PM", "Thu 11AM", "Fri 1PM"]
+    },
+    {
+      "interviewerId": "i010",
+      "interviewerName": "Meera Nair",
+      "email": "meera.nair@company.com",
+      "availableSlots": ["Tue 1PM", "Wed 4PM", "Fri 2PM"]
+    },
+    {
+      "interviewerId": "i011",
+      "interviewerName": "Aman Sethi",
+      "email": "aman.sethi@company.com",
+      "availableSlots": ["Mon 2PM", "Wed 9AM", "Thu 3PM"]
+    },
+    {
+      "interviewerId": "i012",
+      "interviewerName": "Divya Rao",
+      "email": "divya.rao@company.com",
+      "availableSlots": ["Tue 4PM", "Thu 2PM", "Fri 11AM"]
+    },
+    {
+      "interviewerId": "i013",
+      "interviewerName": "Kunal Bhatia",
+      "email": "kunal.bhatia@company.com",
+      "availableSlots": ["Mon 10AM", "Wed 2PM", "Fri 3PM"]
+    },
+    {
+      "interviewerId": "i014",
+      "interviewerName": "Tanya Malhotra",
+      "email": "tanya.malhotra@company.com",
+      "availableSlots": ["Tue 9AM", "Thu 4PM", "Fri 1PM"]
+    },
+    {
+      "interviewerId": "i015",
+      "interviewerName": "Sameer Kulkarni",
+      "email": "sameer.kulkarni@company.com",
+      "availableSlots": ["Mon 4PM", "Wed 11AM", "Thu 1PM"]
+    },
+    {
+      "interviewerId": "i016",
+      "interviewerName": "Pooja Reddy",
+      "email": "pooja.reddy@company.com",
+      "availableSlots": ["Tue 11AM", "Wed 10AM", "Fri 9AM"]
+    },
+    {
+      "interviewerId": "i017",
+      "interviewerName": "Siddharth Iyer",
+      "email": "siddharth.iyer@company.com",
+      "availableSlots": ["Mon 1PM", "Thu 10AM", "Fri 2PM"]
+    },
+    {
+      "interviewerId": "i018",
+      "interviewerName": "Ritika Jain",
+      "email": "ritika.jain@company.com",
+      "availableSlots": ["Tue 2PM", "Wed 3PM", "Fri 4PM"]
+    },
+    {
+      "interviewerId": "i019",
+      "interviewerName": "Aditya Kaul",
+      "email": "aditya.kaul@company.com",
+      "availableSlots": ["Mon 9AM", "Wed 1PM", "Fri 10AM"]
+    },
+    {
+      "interviewerId": "i020",
+      "interviewerName": "Shruti Menon",
+      "email": "shruti.menon@company.com",
+      "availableSlots": ["Tue 3PM", "Thu 2PM", "Fri 1PM"]
+    }
+  ]
+  

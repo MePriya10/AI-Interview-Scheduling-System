@@ -4,6 +4,12 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 // const authRoutes = require('./routes/authRoutes');
 
+
+mongoose.connection.once('open', () => {
+  console.log('MongoDB Connected to DB:', mongoose.connection.name);
+});
+
+
 dotenv.config();
 
 const app = express();
@@ -13,14 +19,16 @@ const app = express();
 // MongoDB connection
 const PORT = process.env.PORT || 5000;
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/scheduleai';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/schedulai';
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
 .then(() => {
-  console.log('MongoDB Connected');
+  console.log('✅ MongoDB Connected');
+  console.log('✅ Connected to DB:', mongoose.connection.name);
+  
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
@@ -39,7 +47,4 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.post('/check',(req,res)=>{
   console.log('reached in backend');
 })
-
-// Routes
-//app.use('/api/auth', authRoutes); // POST /api/auth/register or /api/auth/login
 

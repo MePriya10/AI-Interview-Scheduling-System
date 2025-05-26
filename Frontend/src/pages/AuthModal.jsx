@@ -10,8 +10,6 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-
-
 const signupSchema = loginSchema.extend({
   name: z.string().min(1, "Name is required"),
 });
@@ -19,28 +17,52 @@ const signupSchema = loginSchema.extend({
 export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
   const [isLogin, setIsLogin] = useState(defaultMode === "login");
   const navigate = useNavigate();
+  const [serverError, setServerError] = useState("");
 
   useEffect(() => {
     setIsLogin(defaultMode === "login");
-  }, [defaultMode]);
+    setServerError("");
+  }, [defaultMode, isOpen]);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(isLogin ? loginSchema : signupSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Submitted:", data);
+  const onSubmit = async (data) => {
+    setServerError("");
+    try {
+      const url = isLogin
+        ? "http://localhost:5000/api/auth/login"
+        : "http://localhost:5000/api/auth/signup";
 
-    setTimeout(() => {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setServerError(result.message || "Something went wrong");
+        return;
+      }
+
+      // On success: you get token and user info here
+      console.log(isLogin ? "Login success:" : "Signup success:", result);
+
       reset();
       onClose();
       navigate("/dashboard");
-    }, 500);
+    } catch (error) {
+      setServerError("Network error, please try again.");
+      console.error("API error:", error);
+    }
   };
 
   return (
@@ -62,6 +84,10 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
               {isLogin ? "Login" : "Sign Up"}
             </h2>
 
+            {serverError && (
+              <p className="text-red-600 text-center mb-4">{serverError}</p>
+            )}
+
             <form onSubmit={handleSubmit(onSubmit)}>
               {!isLogin && (
                 <div className="mb-3">
@@ -70,6 +96,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
                     {...register("name")}
                     placeholder="Full Name"
                     className="w-full px-3 py-2 border rounded"
+                    disabled={isSubmitting}
                   />
                   {errors.name && (
                     <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -83,6 +110,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
                   {...register("email")}
                   placeholder="Email"
                   className="w-full px-3 py-2 border rounded"
+                  disabled={isSubmitting}
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -95,6 +123,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
                   {...register("password")}
                   placeholder="Password"
                   className="w-full px-3 py-2 border rounded"
+                  disabled={isSubmitting}
                 />
                 {errors.password && (
                   <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -103,9 +132,16 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
               >
-                {isLogin ? "Login" : "Sign Up"}
+                {isSubmitting
+                  ? isLogin
+                    ? "Logging in..."
+                    : "Signing up..."
+                  : isLogin
+                  ? "Login"
+                  : "Sign Up"}
               </button>
             </form>
 
@@ -117,6 +153,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
                     onClick={() => {
                       setIsLogin(false);
                       reset();
+                      setServerError("");
                     }}
                     className="text-blue-600 hover:underline"
                   >
@@ -130,6 +167,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
                     onClick={() => {
                       setIsLogin(true);
                       reset();
+                      setServerError("");
                     }}
                     className="text-blue-600 hover:underline"
                   >
@@ -143,6 +181,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
               onClick={() => {
                 onClose();
                 reset();
+                setServerError("");
               }}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 text-lg"
             >
@@ -154,6 +193,3 @@ export default function AuthModal({ isOpen, onClose, defaultMode = "login" }) {
     </AnimatePresence>
   );
 }
-
-const navigate = useNavigate();
-

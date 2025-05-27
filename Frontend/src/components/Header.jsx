@@ -57,32 +57,53 @@ const Header = () => {
               <Link to="/dashboard" className="hover:text-blue-600">
                 Dashboard
               </Link>
-              <div className="flex items-center space-x-2">
-                <User className="w-5 h-5 text-blue-700" />
-                <span>{userName.charAt(0).toUpperCase() + userName.slice(1)}</span>
 
-                <button onClick={handleLogout} className="text-blue-600 hover:text-blue-500">
-                  Logout
-                </button>
-              </div>
+              {/* Profile icon and user name */}
+              <Link
+                to="/profile"
+                className="flex items-center space-x-2 hover:text-blue-600"
+                title="Profile"
+              >
+                <User className="w-5 h-5 text-blue-700 cursor-pointer" />
+                <span>{userName.charAt(0).toUpperCase() + userName.slice(1)}</span>
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="text-blue-600 hover:text-blue-500 ml-4"
+              >
+                Logout
+              </button>
             </>
           ) : (
             <>
-              <button onClick={() => openAuthModal("signup")} className="hover:text-blue-600">
+              <button
+                onClick={() => openAuthModal("signup")}
+                className="hover:text-blue-600"
+              >
                 Signup
               </button>
-              <button onClick={() => openAuthModal("login")} className="hover:text-blue-600">
+              <button
+                onClick={() => openAuthModal("login")}
+                className="hover:text-blue-600"
+              >
                 Login
               </button>
             </>
           )}
         </nav>
 
-        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-blue-800">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-blue-800"
+          aria-label="Toggle menu"
+        >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden px-6 pb-4 bg-white text-blue-800 space-y-4 flex flex-col">
           <Link to="/" onClick={() => setMenuOpen(false)}>
@@ -93,11 +114,14 @@ const Header = () => {
               <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
                 Dashboard
               </Link>
-              <div className="flex items-center space-x-2">
-                <User className="w-4 h-4" />
+              <Link
+                to="/profile"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center space-x-2"
+              >
+                <User className="w-5 h-5" />
                 <span>{userName.charAt(0).toUpperCase() + userName.slice(1)}</span>
-
-              </div>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="text-left text-blue-600 hover:text-blue-500"
@@ -114,7 +138,11 @@ const Header = () => {
         </div>
       )}
 
-      <AuthModal isOpen={showAuthModal} onClose={closeAuthModal} defaultMode={authMode} />
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={closeAuthModal}
+        defaultMode={authMode}
+      />
     </header>
   );
 };

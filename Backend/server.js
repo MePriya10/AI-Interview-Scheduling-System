@@ -2,49 +2,44 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-// const authRoutes = require('./routes/authRoutes');
-
-
-mongoose.connection.once('open', () => {
-  console.log('MongoDB Connected to DB:', mongoose.connection.name);
-});
-
 
 dotenv.config();
 
 const app = express();
-
-
-
-// MongoDB connection
 const PORT = process.env.PORT || 5000;
-
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/schedulai';
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log('✅ MongoDB Connected');
-  console.log('✅ Connected to DB:', mongoose.connection.name);
-  
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-})
-.catch(err => {
-  console.error('MongoDB connection error:', err.message);
-  process.exit(1); // exit process if DB fails to connect
+// ✅ Middleware FIRST — apply to all routes
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
+app.use(express.json());
+
+// ✅ Then define your routes
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
+
+// Optional test route
+app.post('/check', (req, res) => {
+  console.log('reached in backend');
+  res.send('working');
 });
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use('/api/auth', require('./routes/authRoutes'));
-
-
-app.post('/check',(req,res)=>{
-  console.log('reached in backend');
+// ✅ Connect to DB and then start server
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
+  .then(() => {
+    console.log('✅ MongoDB Connected');
+    console.log('✅ Connected to DB:', mongoose.connection.name);
 
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err.message);
+    process.exit(1);
+  });

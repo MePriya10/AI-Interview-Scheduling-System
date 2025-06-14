@@ -10,8 +10,27 @@ const ScheduleInterviews = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // normalize today to midnight
+  
+    const maxFutureDate = new Date();
+    maxFutureDate.setDate(today.getDate() + 3); // max 6 months ahead
+  
+    if (selectedDate < today) {
+      alert("Please select a valid date. You cannot schedule interviews in the past.");
+      return;
+    }
+  
+    if (selectedDate > maxFutureDate) {
+      alert("You can only schedule interviews up to 3 months in advance.");
+      return;
+    }
+  
     navigate("/interview-details", { state: { title, numInterviews, date } });
   };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 to-purple-100 pt-24 px-6">

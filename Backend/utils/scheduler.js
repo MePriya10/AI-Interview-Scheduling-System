@@ -1,6 +1,6 @@
 const moment = require("moment");
 
-// Step 1: Build conflict graph based on candidate/interviewer clashes
+// Build conflict graph
 function buildConflictGraph(interviewPairs) {
   const graph = new Map();
 
@@ -10,7 +10,6 @@ function buildConflictGraph(interviewPairs) {
     for (let j = 0; j < interviewPairs.length; j++) {
       if (i === j) continue;
 
-      // Conflict if same candidate or same interviewer
       if (
         interviewPairs[i].candidateId === interviewPairs[j].candidateId ||
         interviewPairs[i].interviewerId === interviewPairs[j].interviewerId
@@ -23,7 +22,7 @@ function buildConflictGraph(interviewPairs) {
   return graph;
 }
 
-// Step 2: Greedy graph coloring to assign slot indices
+// Graph coloring to avoid slot conflicts
 function greedyColoring(graph) {
   const colorMap = {};
 
@@ -47,7 +46,7 @@ function greedyColoring(graph) {
   return colorMap;
 }
 
-// Step 3: Schedule interviews using slot mapping and conflict-free coloring
+// Assign actual date-time slots to conflict-free pairs
 function assignSlots({
   interviewPairs,
   slotTimes,
@@ -55,65 +54,52 @@ function assignSlots({
   maxInterviewsPerDay,
   selectedCandidateIds,
 }) {
-  // Step 3.1: Filter only selected candidates
+  // Safety check: ensure selectedCandidateIds is an array before filter
+  if (!Array.isArray(selectedCandidateIds)) {
+    selectedCandidateIds = [];
+  }
+
+  // Filter only selected candidates
   interviewPairs = interviewPairs.filter((pair) =>
     selectedCandidateIds.includes(pair.candidateId)
   );
 
-  // Step 3.2: Build conflict graph and get coloring
   const graph = buildConflictGraph(interviewPairs);
   const colorMap = greedyColoring(graph);
 
-  const schedule = [];
-  const slotsPerDay = Math.min(maxInterviewsPerDay, slotTimes.length);
   const usedSlots = new Set();
+  const rawSchedule = [];
 
-  // Step 3.3: Recursive slot assignment
-  function assign(index) {
-    if (index >= interviewPairs.length) return true; // Base case
+  const slotsPerDay = Math.min(maxInterviewsPerDay, slotTimes.length);
 
-    const color = colorMap[index];
+  for (let i = 0; i < interviewPairs.length; i++) {
+    const color = colorMap[i];
+
     let dayOffset = Math.floor(color / slotsPerDay);
     let slotIndex = color % slotsPerDay;
 
-    while (true) {
-      const date = moment(startDate).add(dayOffset, "days").format("YYYY-MM-DD");
-      const slot = slotTimes[slotIndex];
-      const key = `${date}-${slot}`;
+    const date = moment(startDate).add(dayOffset, "days").format("YYYY-MM-DD");
+    const time = slotTimes[slotIndex];
+    const slotKey = `${date}-${time}`;
 
-      if (!usedSlots.has(key)) {
-        usedSlots.add(key);
+    if (usedSlots.has(slotKey)) continue; // Skip used time slot
 
-        schedule.push({
-          date,
-          slot,
-          candidate: {
-            id: interviewPairs[index].candidateId,
-            name: interviewPairs[index].candidateName,
-          },
-          interviewer: {
-            id: interviewPairs[index].interviewerId,
-            name: interviewPairs[index].interviewerName,
-          },
-        });
+    usedSlots.add(slotKey);
 
-        if (assign(index + 1)) return true;
+    const pair = interviewPairs[i];
 
-        // Backtrack if failed
-        usedSlots.delete(key);
-        schedule.pop();
-      }
-
-      // Move to next day
-      dayOffset++;
-      if (dayOffset > 30) break; // Avoid infinite loop
-    }
-
-    return false;
+    rawSchedule.push({
+      interviewName: `Interview ${rawSchedule.length + 1}`,
+      role: "Software Engineer", // You can make this dynamic if needed
+      date,
+      time,
+      duration: 30, // Fixed or dynamic
+      candidateId: pair.candidateId,
+      interviewerId: pair.interviewerId,
+    });
   }
 
-  assign(0);
-  return schedule;
+  return { schedule: rawSchedule };
 }
 
 module.exports = { assignSlots };

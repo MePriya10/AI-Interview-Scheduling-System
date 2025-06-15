@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 const ScheduleInterviews = () => {
   const [title, setTitle] = useState("");
+  const [role, setRole] = useState("");
   const [numInterviews, setNumInterviews] = useState(1);
   const [date, setDate] = useState("");
-  const [candidateInput, setCandidateInput] = useState(""); // ✅ for text input
+  const [candidateInput, setCandidateInput] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -16,7 +17,7 @@ const ScheduleInterviews = () => {
     today.setHours(0, 0, 0, 0);
 
     const maxFutureDate = new Date();
-    maxFutureDate.setDate(today.getDate() + 3);
+    maxFutureDate.setMonth(maxFutureDate.getMonth() + 3);
 
     if (selectedDate < today) {
       alert("Please select a valid date. You cannot schedule interviews in the past.");
@@ -28,23 +29,38 @@ const ScheduleInterviews = () => {
       return;
     }
 
-    // ✅ Parse comma-separated candidate IDs
-    const selectedCandidateIds = candidateInput
+    const candidateIds = candidateInput
       .split(",")
       .map((id) => id.trim())
       .filter((id) => id.length > 0);
 
-    if (selectedCandidateIds.length === 0) {
+    if (candidateIds.length === 0) {
       alert("Please enter at least one candidate ID.");
       return;
     }
 
+    if (candidateIds.length < numInterviews) {
+      alert(
+        `You selected ${numInterviews} interviews, but only provided ${candidateIds.length} candidate ID(s).`
+      );
+      return;
+    }
+
+    if (candidateIds.length > numInterviews) {
+      alert(
+        `You selected ${numInterviews} interviews, but provided ${candidateIds.length} candidate ID(s).`
+      );
+      return;
+    }
+
+    // ✅ Navigate with correct keys
     navigate("/try-scheduler", {
       state: {
         interviewTitle: title,
+        role,
         numberOfInterviews: numInterviews,
-        date,
-        selectedCandidateIds,
+        startDate: date,        // was `startDate` undefined — now fixed
+        selectedCandidateIds: candidateIds,           // changed from `selectedCandidateIds`
       },
     });
   };
@@ -63,9 +79,23 @@ const ScheduleInterviews = () => {
             </label>
             <input
               type="text"
-              placeholder="e.g. Frontend Developer - Round 1"
+              placeholder="e.g. August Hiring Challenge"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Role
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. Frontend Developer"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"
               required
             />
@@ -107,7 +137,7 @@ const ScheduleInterviews = () => {
             </label>
             <input
               type="text"
-              placeholder="e.g. cand_01,cand_02,cand_03"
+              placeholder="e.g. c001,c002,c003"
               value={candidateInput}
               onChange={(e) => setCandidateInput(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"

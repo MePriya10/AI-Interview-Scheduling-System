@@ -46,60 +46,86 @@ function greedyColoring(graph) {
   return colorMap;
 }
 
-// Assign actual date-time slots to conflict-free pairs
 function assignSlots({
   interviewPairs,
-  slotTimes,
-  startDate,
-  maxInterviewsPerDay,
   selectedCandidateIds,
+  maxInterviewsPerDay,
+  startDate,
+  slotTimes,
+  interviewTitle,
+  role,
 }) {
-  // Safety check: ensure selectedCandidateIds is an array before filter
-  if (!Array.isArray(selectedCandidateIds)) {
-    selectedCandidateIds = [];
+  console.log("📥 Received interviewTitle:", interviewTitle);
+  const scheduled = [];
+  const usedSlotsPerDay = {};
+  const usedInterviewers = new Set();
+  const usedCandidates = new Set();
+
+  const maxDays = 3;
+  const baseDate = new Date(startDate);
+
+  if (isNaN(baseDate.getTime())) {
+    throw new Error("Invalid startDate");
   }
 
-  // Filter only selected candidates
-  interviewPairs = interviewPairs.filter((pair) =>
-    selectedCandidateIds.includes(pair.candidateId)
-  );
+  for (const candidateId of selectedCandidateIds) {
+    const pairsForCandidate = interviewPairs.filter(
+      (pair) => pair.candidateId === candidateId
+    );
 
-  const graph = buildConflictGraph(interviewPairs);
-  const colorMap = greedyColoring(graph);
+    let scheduledForThisCandidate = false;
 
-  const usedSlots = new Set();
-  const rawSchedule = [];
+    for (let dayOffset = 0; dayOffset < maxDays && !scheduledForThisCandidate; dayOffset++) {
+      const date = new Date(baseDate);
+      date.setDate(baseDate.getDate() + dayOffset);
+      const dateStr = date.toISOString().split("T")[0];
 
-  const slotsPerDay = Math.min(maxInterviewsPerDay, slotTimes.length);
+      if (!usedSlotsPerDay[dateStr]) {
+        usedSlotsPerDay[dateStr] = new Set();
+      }
 
-  for (let i = 0; i < interviewPairs.length; i++) {
-    const color = colorMap[i];
+      if (!startDate || isNaN(Date.parse(startDate))) {
+        throw new Error("Invalid startDate provided to scheduler.");
+      }
+      
 
-    let dayOffset = Math.floor(color / slotsPerDay);
-    let slotIndex = color % slotsPerDay;
+      for (const pair of pairsForCandidate) {
+        if (
+          !usedSlotsPerDay[dateStr].has(pair.slot) &&
+          !usedInterviewers.has(pair.interviewerId) &&
+          !usedCandidates.has(pair.candidateId)
+        ) {
+          scheduled.push({
+            interviewName: interviewTitle?.trim() !== "" ? interviewTitle : `Interview for ${pair.candidateName}`,
 
-    const date = moment(startDate).add(dayOffset, "days").format("YYYY-MM-DD");
-    const time = slotTimes[slotIndex];
-    const slotKey = `${date}-${time}`;
+            role: role || "N/A",
+            date: dateStr,
+            time: pair.slot,
+            duration: 30,
+            candidateId: pair.candidateId,
+            candidateName: pair.candidateName,
+            candidateEmail: pair.candidateEmail,
+            interviewerId: pair.interviewerId,
+            interviewerName: pair.interviewerName,
+            interviewerEmail: pair.interviewerEmail,
+          });
 
-    if (usedSlots.has(slotKey)) continue; // Skip used time slot
+          usedSlotsPerDay[dateStr].add(pair.slot);
+          usedInterviewers.add(pair.interviewerId);
+          usedCandidates.add(pair.candidateId);
+          scheduledForThisCandidate = true;
+          break;
+        }
+      }
+    }
 
-    usedSlots.add(slotKey);
-
-    const pair = interviewPairs[i];
-
-    rawSchedule.push({
-      interviewName: `Interview ${rawSchedule.length + 1}`,
-      role: "Software Engineer", // You can make this dynamic if needed
-      date,
-      time,
-      duration: 30, // Fixed or dynamic
-      candidateId: pair.candidateId,
-      interviewerId: pair.interviewerId,
-    });
+    if (!scheduledForThisCandidate) {
+      console.warn(`⚠️ Could not schedule candidate ${candidateId} within 3 days.`);
+    }
   }
 
-  return { schedule: rawSchedule };
+  console.table(scheduled);
+  return { schedule: scheduled };
 }
 
 module.exports = { assignSlots };

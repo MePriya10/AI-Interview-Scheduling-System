@@ -1,7 +1,7 @@
 const express = require("express");
-const { runScheduler } = require("../controllers/schedulerController");
 const router = express.Router();
+const { runScheduler } = require("../controllers/schedulerController");
 
-router.post("/generate", runScheduler);
+router.post("/schedule", runScheduler);
 
 module.exports = router;

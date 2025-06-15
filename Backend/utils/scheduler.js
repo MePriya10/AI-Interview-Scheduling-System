@@ -55,7 +55,7 @@ function assignSlots({
   interviewTitle,
   role,
 }) {
-  console.log("📥 Received interviewTitle:", interviewTitle);
+  console.log("Received interviewTitle:", interviewTitle);
   const scheduled = [];
   const usedSlotsPerDay = {};
   const usedInterviewers = new Set();
@@ -120,7 +120,7 @@ function assignSlots({
     }
 
     if (!scheduledForThisCandidate) {
-      console.warn(`⚠️ Could not schedule candidate ${candidateId} within 3 days.`);
+      console.warn(`Could not schedule candidate ${candidateId} within 3 days.`);
     }
   }
 

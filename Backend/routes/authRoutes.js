@@ -5,6 +5,6 @@ const { register, login, getProfile, updateProfile } = require("../controllers/a
 
 router.post("/signup", register);
 router.post("/login", login);
-router.get("/profile", authenticateToken, getProfile);  // ✅ Fixed
+router.get("/profile", authenticateToken, getProfile);  // Fixed
 router.put("/profile", authenticateToken, updateProfile);
 module.exports = router;

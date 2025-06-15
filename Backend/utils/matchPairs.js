@@ -7,7 +7,7 @@ function generateInterviewPairs(candidateIds = []) {
     if (!candidateIds.includes(candidate.candidateId)) continue;
 
     if (!Array.isArray(candidate.availableSlots) || !candidate.email) {
-      console.warn(`⚠️ Invalid candidate data for: ${candidate.candidateName}`);
+      console.warn(`Invalid candidate data for: ${candidate.candidateName}`);
       continue;
     }
 
@@ -15,7 +15,7 @@ function generateInterviewPairs(candidateIds = []) {
 
     for (const interviewer of interviewers) {
       if (!Array.isArray(interviewer.availableSlots)) {
-        console.warn(`⚠️ Invalid interviewer data for: ${interviewer.interviewerName}`);
+        console.warn(`Invalid interviewer data for: ${interviewer.interviewerName}`);
         continue;
       }
 
@@ -47,7 +47,7 @@ function generateInterviewPairs(candidateIds = []) {
       const fallbackSlot = candidate.availableSlots[0] || (fallbackInterviewer?.availableSlots[0]);
 
       if (fallbackInterviewer && fallbackSlot) {
-        console.warn(`⚠️ No perfect match for ${candidate.candidateName}, assigning fallback.`);
+        console.warn(`No perfect match for ${candidate.candidateName}, assigning fallback.`);
 
         pairs.push({
           candidateId: candidate.candidateId,
@@ -62,7 +62,7 @@ function generateInterviewPairs(candidateIds = []) {
     }
   }
 
-  console.log(`✅ Total pairs created: ${pairs.length}`);
+  console.log(`Total pairs created: ${pairs.length}`);
   return pairs;
 }
 

@@ -53,7 +53,7 @@ const ScheduleInterviews = () => {
       return;
     }
 
-    // ✅ Navigate with correct keys
+    //  Navigate with correct keys
     navigate("/try-scheduler", {
       state: {
         interviewTitle: title,

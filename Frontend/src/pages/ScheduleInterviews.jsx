@@ -1,4 +1,3 @@
-// ScheduleInterviews.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,31 +5,49 @@ const ScheduleInterviews = () => {
   const [title, setTitle] = useState("");
   const [numInterviews, setNumInterviews] = useState(1);
   const [date, setDate] = useState("");
+  const [candidateInput, setCandidateInput] = useState(""); // ✅ for text input
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     const selectedDate = new Date(date);
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // normalize today to midnight
-  
+    today.setHours(0, 0, 0, 0);
+
     const maxFutureDate = new Date();
-    maxFutureDate.setDate(today.getDate() + 3); // max 6 months ahead
-  
+    maxFutureDate.setDate(today.getDate() + 3);
+
     if (selectedDate < today) {
       alert("Please select a valid date. You cannot schedule interviews in the past.");
       return;
     }
-  
+
     if (selectedDate > maxFutureDate) {
       alert("You can only schedule interviews up to 3 months in advance.");
       return;
     }
-  
-    navigate("/interview-details", { state: { title, numInterviews, date } });
+
+    // ✅ Parse comma-separated candidate IDs
+    const selectedCandidateIds = candidateInput
+      .split(",")
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0);
+
+    if (selectedCandidateIds.length === 0) {
+      alert("Please enter at least one candidate ID.");
+      return;
+    }
+
+    navigate("/try-scheduler", {
+      state: {
+        interviewTitle: title,
+        numberOfInterviews: numInterviews,
+        date,
+        selectedCandidateIds,
+      },
+    });
   };
-  
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 to-purple-100 pt-24 px-6">
@@ -38,6 +55,7 @@ const ScheduleInterviews = () => {
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Schedule a New Interview
         </h1>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-700 font-medium mb-2">
@@ -62,9 +80,9 @@ const ScheduleInterviews = () => {
               onChange={(e) => setNumInterviews(Number(e.target.value))}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"
             >
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9 , 10].map((num) => (
-                <option key={num} value={num}>
-                  {num}
+              {[...Array(10)].map((_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
                 </option>
               ))}
             </select>
@@ -78,6 +96,20 @@ const ScheduleInterviews = () => {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Candidate IDs (comma-separated)
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. cand_01,cand_02,cand_03"
+              value={candidateInput}
+              onChange={(e) => setCandidateInput(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-purple-400 focus:outline-none"
               required
             />

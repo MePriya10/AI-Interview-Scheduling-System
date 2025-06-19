@@ -39,7 +39,7 @@ mongoose.connect(MONGO_URI, {
     console.log('Connected to DB:', mongoose.connection.name);
 
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`Server running on http://localhost:${PORT}`);
     });
   })
   .catch(err => {
